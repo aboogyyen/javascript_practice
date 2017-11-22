@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>TodoJS</title>
+</head>
+<body>
+  <h1>TodoJS</h1>
+  <form action="">
+    <input type="text" name="todo" id="todo-input">
+    <button id="submit-btn" type="button">提交送出</button>
+  </form>
+  <ul id="result">
+
+  </ul>
+
+  <script type="text/javascript">
+    let submitBtn = document.querySelector('#submit-btn');
+    let result = document.querySelector('#result');
+    submitBtn.addEventListener('click', (e) => {
+      let todoInput = document.querySelector('#todo-input').value
+      console.log('todoInput', todoInput);
+      //防呆程式設計
+      if (todoInput !== '') {
+        let todo = document.createElement('LI');
+        todo.innerHTML = todoInput + '<button>X</button>';
+        result.appendChild(todo);
+        document.querySelector('#todo-input').value = '';
+      }else {
+        alert('請輸入值')
+      }
+    });
+    result.addEventListener('click', (e)=>{
+      console.log(e.target.parentNode.parentNode);//點擊觸發的地方，發現是button X
+      e.target.parentNode.parentNode.removeChild(e.target.parentNode);
+    });
+  </script>
+</body>
+</html>

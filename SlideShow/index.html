@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Slide Show</title>
+  <link rel=stylesheet type="text/css" href="style.css">
+</head>
+<body>
+  <h1>Slide Show</h1>
+  <div class="slideshow-container">
+    <div class="slides fade">
+      <img src="./IMG_3075.JPG">
+      <div>Segovia</div>
+    </div>
+    <div class="slides fade">
+      <img src="./IMG_3165.JPG">
+      <div>Sevilla</div>
+    </div>
+    <div class="slides fade">
+      <img src="./IMG_3256.JPG">
+      <div>Sevilla</div>
+    </div>
+  </div>
+  <a id="prev" href="#">Prev</a>
+  <a id="next" href="#">Next</a>
+  <script type="text/javascript">
+  //監聽click事件換照片：前一張、後一張
+  console.log(document.querySelector('#prev'));
+    document.querySelector('#prev').addEventListener('click', () => {
+      nextSlide(-1);
+    })
+    document.querySelector('#next').addEventListener('click', () => {
+      nextSlide(1);
+    })
+  //default值：設定第一張幻燈片是1
+    let slideIndex = 1;
+  //我到底要show哪一張slides
+    function showSlides(index){
+      let slides = document.getElementsByClassName('slides');
+      console.log(index);
+      //下一頁到超過所有幻燈片數目時，回到第一頁
+      if (index > slides.length) {
+        slideIndex = 1
+      }
+      //第一張的前一張應該是接最後一頁
+      if (index < 1) {
+        slideIndex = slides.length;
+      }
+      for (var i = 0; i < slides.length; i++) {
+        slides[i].style.display = 'none';
+      }
+      slides[slideIndex - 1].style.display = 'block';
+    }
+    showSlides(1)
+  //上一張下一張的功能
+    function nextSlide(num){
+      slideIndex += num;
+      showSlides(slideIndex);
+    }
+//自己try幻燈片自動播放
+  let timer = setInterval(() => {
+    nextSlide(1)
+  }, 2500)
+  </script>
+</body>
+</html>
+<!-- 思考程式邏輯-->
+<!-- 此次共寫了兩個程式，分別為nextSlide, showSlides-->
+<!-- 1.showSlides:
+各個圖片編號方便控制顯示哪一張（取同樣class名稱，使用getElementsByClassName將其都放入一個array內)-->
+<!-- 2.nextSlide:
+因為圖片都有編號，所以透過點擊事件更換編號來控制播放幻燈片-->

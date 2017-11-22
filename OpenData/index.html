@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Open Data</title>
+</head>
+<body>
+  <div id="result">
+    <!-- <img src="./loading.gif" alt="" id="loading"> -->
+  </div>
+  <script type="text/javascript">
+  //new一個AJAX物件
+    let xhr = new XMLHttpRequest();
+    let url = 'http://163.29.157.32:8080/dataset/6a3e862a-e1cb-4e44-b989-d35609559463/resource/f4a75ba9-7721-4363-884d-c3820b0b917c/download/1518829ccd4e43d9b9716235c360d541.json'
+    xhr.open('GET', url);
+    //當資料傳回來的時候要做什麼處理
+    //onreadystatechange是判斷AJAX到哪個步驟了
+    xhr.onreadystatechange = () => {
+      if ( xhr.readyState === 4 ) {
+        console.log('111',xhr.responseText);
+        //失敗了QQ抓不到資料
+        //根據上課影片接下來的步驟是先把json檔內容轉換成一個一個的物件data，再使用foreach將各個image create出來
+				var data = JSON.parse(xhr.responseText);
+				console.log(data[0].ImageName);
+				data.forEach(function(value, index) {
+					var image = document.createElement('img');
+					image.src = data[index].ImageName;
+					document.querySelector('#result').appendChild(image);
+				});
+      }
+    }
+    xhr.send();
+
+  </script>
+</body>
+</html>

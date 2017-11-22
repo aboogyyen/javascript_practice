@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Mosquito Fight</title>
+</head>
+<body>
+  <div id="info">
+    <span>Score:</span><span id="score-board">0</span>
+    <span>Time:</span><span id="counter"></span>
+  </div>
+  <script type="text/javascript">
+    let score = 0;
+    let countdown = 10;
+    //讓蚊子動起來
+    //先設一個時間器：一段時間要做什麼事(讓蚊子出現)
+    let timer = setInterval(()=>{
+      let gameOver = false;
+      if (document.querySelector('#mosquito') === null && gameOver !== true) {
+        let mosquito = document.createElement('img');
+        mosquito.src = './images/mosquito.png';
+        mosquito.style.position = 'absolute';
+        mosquito.style.width = 100 + 'px';
+        mosquito.style.height = 100 + 'px';
+        let x = Math.floor(Math.random() * window.innerWidth);
+        let y = Math.floor(Math.random() * window.innerHeight);
+
+        mosquito.style.top = y + 'px';
+        mosquito.style.left = x + 'px';
+        //判斷蚊子生成了沒
+        mosquito.id = 'mosquito';
+        document.body.appendChild(mosquito);
+      };
+      //時間倒數計時
+      countdown -= 1;
+      document.querySelector('#counter').innerHTML = countdown;
+      //時間為零時遊戲停止
+      if (countdown <= 0) {
+        gameOver = true;
+        clearInterval(timer);
+        clearInterval(disappear);
+        document.querySelector('#counter').innerHTML = '遊戲時間結束！';
+      }
+
+    },1000)
+
+    //蚊子飛來飛去位置改變
+    let disappear = setInterval(() => {
+      if (document.querySelector('#mosquito') !== null) {
+        document.body.removeChild(document.querySelector('#mosquito'));
+      }
+    },3000)
+    //點擊蚊子消失，分數增加
+    document.body.addEventListener('click', (e) => {
+      let scoreBoard = document.querySelector('#score-board');
+      if (e.target.id === 'mosquito') {
+        console.log(e.target);//img
+        console.log(e.target.parentNode);//body
+        e.target.parentNode.removeChild(e.target);//使用parentNode抓取父元素，再使用removeChild移除移除img
+        //打到蚊子加五分
+        score += 5;
+        alert('打到了！！！');
+        scoreBoard.innerHTML = score;
+      }
+    })
+
+  </script>
+</body>
+</html>
+<!-- 兩件事思考 -->
+<!-- 每一段時間蚊子會改變位置：使用javascript動態改變CSS -->
+<!-- 點擊蚊子時蚊子會被殺死，分數增加 -->
